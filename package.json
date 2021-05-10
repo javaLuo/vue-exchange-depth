@@ -1,25 +1,29 @@
 {
-  "name": "vue-exchange-depth",
-  "version": "0.0.3",
-  "files": ["dist"],
-  "main": "./dist/vue-exchange-depth.umd.min.js",
+  "name": "vue2-test",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --target lib",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "prettier": "prettier --write \"{src,mock}/**/*.{js,css,less,vue}\""
   },
   "dependencies": {
+    "big.js": "^6.1.0",
     "core-js": "^3.6.5",
+    "element-ui": "^2.15.1",
+    "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
-    "big.js": "^6.1.0"
+    "vue-exchange-depth": "0.0.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-component": "^1.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^6.2.2",
@@ -41,7 +45,18 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "semi": "warn",
+      "no-unused-vars": "off",
+      "no-cond-assign": "error",
+      "no-debugger": "warn",
+      "no-dupe-args": "error",
+      "no-caller": "error",
+      "no-unmodified-loop-condition": "error",
+      "no-with": "error",
+      "no-catch-shadow": "error",
+      "prettier/prettier": "warn"
+    }
   },
   "browserslist": [
     "> 1%",
