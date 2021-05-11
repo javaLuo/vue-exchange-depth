@@ -142,7 +142,7 @@ export default {
           count: this.random(1, 50, true),
         });
       }
-
+      askData.reverse();
       setTimeout(() => {
         this.sourceData = {
           askData,
@@ -178,6 +178,7 @@ export default {
     flex: none;
     width: 300px;
     height: 500px;
+    z-index: 2;
   }
 
   .d2 {
@@ -187,7 +188,7 @@ export default {
       padding: 10px;
       font-size: 12px;
     }
-    .form2{
+    .form2 {
       max-height: 300px;
       overflow: auto;
     }

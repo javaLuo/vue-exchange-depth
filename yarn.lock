@@ -8356,10 +8356,10 @@ vue-eslint-parser@^7.0.0:
     esquery "^1.4.0"
     lodash "^4.17.15"
 
-vue-exchange-depth@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/vue-exchange-depth/-/vue-exchange-depth-0.0.4.tgz#f5af0a7ff1161ba930335efacb54add625c5b814"
-  integrity sha512-i9AdgN3wqLafuoccywefpACqTofbwm3qErCrjlpk4JLSzR7OJV5G5q/t6OGfS9oH2pUbQkNPI2JFKgNcQD0lMw==
+vue-exchange-depth@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/vue-exchange-depth/-/vue-exchange-depth-0.0.5.tgz#71938f8708df9eac4151de8ab53f8da69f455366"
+  integrity sha512-GM7oZlQ2ZuSv+hdtgP+JStnlo+BX2tXUKr/HL1e3e1pDUjQG+T/62OBIUUfBmOhwWZqQIiTdeF2nLJccHj7TIQ==
   dependencies:
     big.js "^6.1.0"
     core-js "^3.6.5"
