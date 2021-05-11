@@ -130,6 +130,7 @@ lastFormatFial|String|''|否
 sourceData|Object|undefined|是
 
 说明：这是交易挂单的原始数据，通常由websocket不停的推送最新数据，你应该传入这样的对象：
+(不要增量更新，每次有新数据都应该传入一个全新的sourceData对象)
 ```js
 {
   askData: [ // 卖方数据 需要你自行对价格(ticks)进行排序，注意是倒序，从大到小
