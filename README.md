@@ -32,7 +32,11 @@ npm install vue-exchange-depth -S
 ```
 ```vue
   <script>
+    import VueExchangeDepth from 'vue-exchange-depth';
     export default {
+      components:{
+        VueExchangeDepth
+      }
       data(){
         return {
           marketInfo: {
