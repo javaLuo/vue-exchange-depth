@@ -6,6 +6,11 @@
 ### DEMO
 https://isluo.com/work/vue-exchange-depth
 
+### 安装
+```
+npm install vue-exchange-depth -S
+```
+
 ### 代码示例
 
 ```vue
@@ -201,3 +206,9 @@ q: `{"zi":"BTC","mu":"USDT","ziPoint":8,"muPoint":4}`<br/>
 p: "center" 选择了第1个按钮，上下数据各展示一半/ "ask"选择了仅展示卖方数据/ "bid"选择了仅展示买方数据
 
 
+### 注意事项
+
+- 组件宽高都是100%， 所以需要一个有大小的容器来装它。
+- 如果你需要更多自定义，可以直接`/src`下的内容复制到你自己项目里，自己改，就是个普通vue组件，直接用就行。
+- `/src/App.vue`是本体，`/src/components`下是简单封装了个select组件，`/src/utils`是一些数学函数。
+- 本组件内部的数学运算使用了`big.js`。

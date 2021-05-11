@@ -171,7 +171,7 @@ export default {
     marketInfo: { type: Object, default: () => {} }, // 当前选择的交易对信息
     updownData: { type: Number, default: 0 }, // 外部传入上一次价格和这一次价格的大小，为了显示绿色或红色
     depthChose: { type: [Number, String], default: 0 }, // 深度选择的什么
-    lastFormatFial: { type: String, default: "" }, //
+    lastFormatFial: { type: String, default: "" },
     options: { type: Object, default: () => {} }, // 自定义的参数
   },
   components: {
@@ -219,7 +219,7 @@ export default {
 
       ask.reverse();
       for (let i = 0; i < ask.length; i++) {
-        ask[i].total = i === 0 ? ask[i].lots : ask[i - 1].total + ask[i].lots;
+        ask[i].total = i === 0 ? Number(ask[i].lots) : ask[i - 1].total + Number(ask[i].lots);
       }
       ask.reverse();
       return ask;
@@ -227,7 +227,7 @@ export default {
     bidDataCom() {
       const bid = this.bidData;
       for (let i = 0; i < bid.length; i++) {
-        bid[i].total = i === 0 ? bid[i].lots : bid[i - 1].total + bid[i].lots;
+        bid[i].total = i === 0 ? Number(bid[i].lots) : bid[i - 1].total + Number(bid[i].lots);
       }
       return bid;
     },
