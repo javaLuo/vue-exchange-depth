@@ -202,7 +202,6 @@ export default {
     // 卖方数据 （上面）
     askData() {
       let ask = this.sourceData.askData ? [...this.sourceData.askData] : [];
-      ask.reverse();
       return ask;
     },
     // 买方数据（下面）
@@ -216,7 +215,6 @@ export default {
     // 原本没有total这一项，前端计算获得，total = 每一项的lots相加
     askDataCom() {
       let ask = this.askData;
-
       ask.reverse();
       for (let i = 0; i < ask.length; i++) {
         ask[i].total = i === 0 ? Number(ask[i].lots) : ask[i - 1].total + Number(ask[i].lots);
