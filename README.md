@@ -227,7 +227,7 @@ p: "center" 选择了第1个按钮，上下数据各展示一半/ "ask"选择了
 <div align=center>
 <img src="https://github.com/javaLuo/water/blob/master/libs/imgs/up.jpg" width="400" alt="微信赞助码"/>
 </div>
-<br/>
+
 - 如果觉得有用，可以小额赞助我<br/>
 - 你的微信昵称将显示在<a href="https://github.com/javaLuo/water" target="_blank">此GitHub项目</a>赞助者名单中<br/>
 - 同时你的微信昵称也将显示在<a href="https://isluo.com/work/water" target="_blank">此网站</a>赞助者名单中<br/>
