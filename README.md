@@ -127,7 +127,7 @@ lastFormatFial|String|''|否
 
 字段名|类型|默认值|是否必填
 --|--|--|--
-lastFormatFial|Object|undefined|是
+sourceData|Object|undefined|是
 
 说明：这是交易挂单的原始数据，通常由websocket不停的推送最新数据，你应该传入这样的对象：
 ```js
