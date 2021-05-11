@@ -221,3 +221,13 @@ p: "center" 选择了第1个按钮，上下数据各展示一半/ "ask"选择了
 - 如果你需要更多自定义，可以直接`/src`下的内容复制到你自己项目里，自己改，就是个普通vue组件，直接用就行。
 - `/src/App.vue`是本体，`/src/components`下是简单封装了个select组件，`/src/utils`是一些数学函数。
 - 本组件内部的数学运算使用了`big.js`。
+
+### 赞助
+
+![赞赏码](https://github.com/javaLuo/water/blob/master/libs/imgs/up.jpg)
+
+- 如果觉得有用，可以小额赞助我
+- 你的微信昵称将显示在<a href="https://github.com/javaLuo/water">此GitHub项目</a>赞助者名单中
+- 同时你的微信昵称也将显示在<a href="https://isluo.com/work/water">此网站</a>赞助者名单中
+- 所得资金不会用于帮助任何人类
+- 所得资金将全部捐赠给流浪猫狗援助项目和自然环境保护计划
