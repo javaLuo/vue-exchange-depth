@@ -142,7 +142,7 @@ export default {
       setTimeout(() => {
         this.sourceData = {
           askData,
-          bidData: [],
+          bidData,
         };
 
         this.lastPrice = Math.random() * 100 + 49900;
