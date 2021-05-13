@@ -159,9 +159,10 @@ export default {
       bidOverIndex: 0,
       askOverIndex: 0,
       optionsDefault: {
-        isFlash: true,
+        isFlash: false,
         hoverType: "right",
         isHoverInfo: true,
+        isFrontDepth: false,
       },
     };
   },
@@ -170,7 +171,6 @@ export default {
     lastPrice: { type: [String, Number], default: 0 }, // 中间 最终价格
     marketInfo: { type: Object, default: () => {} }, // 当前选择的交易对信息
     updownData: { type: Number, default: 0 }, // 外部传入上一次价格和这一次价格的大小，为了显示绿色或红色
-    depthChose: { type: [Number, String], default: 0 }, // 深度选择的什么
     lastFormatFial: { type: String, default: "" },
     options: { type: Object, default: () => {} }, // 自定义的参数
   },
@@ -199,6 +199,10 @@ export default {
     muPoint() {
       return this.marketInfo.muPoint || 8;
     },
+    // 当前选择的交易对名字，用于变更时，旧数据消失的动画
+    marketName() {
+      return `${this.marketInfo.zi}/${this.marketInfo.mu}`;
+    },
     // 卖方数据 （上面）
     askData() {
       let ask = this.sourceData.askData ? [...this.sourceData.askData] : [];
@@ -208,24 +212,90 @@ export default {
     bidData() {
       return this.sourceData.bidData ? [...this.sourceData.bidData] : [];
     },
-    // 当前选择的交易对名字，用于变更时，旧数据消失的动画
-    marketName() {
-      return `${this.marketInfo.zi}/${this.marketInfo.mu}`;
+    // 根据选择的深度处理数据，就算是默认深度，也需要经过此方法处理
+    // 此方法还会格式化小数点位数
+    sourceDataDepth() {
+      const pointL = this.depthChoseState
+        ? this.depthChoseState.value.length - 1
+        : 0; // 需要合并的位数
+
+      const ask = this.askData;
+      const bid = this.bidData;
+
+      if (!this.sourceData || !this.sourceData.askData) {
+        return {
+          askData: this.askData,
+          bidData: this.bidData,
+        };
+      }
+
+      const askN = {};
+      const bidN = {};
+
+      for (let i = 0; i < ask.length; i++) {
+        const num = big.toFixedPoint(ask[i].ticks, this.muPoint);
+        const numL = num.indexOf(".") > -1 ? num.length - 1 : num.length;
+        const deepNum = big.toStr(big.toPrecision(num, numL - pointL));
+
+        if (!askN[deepNum]) {
+          askN[deepNum] = { ...ask[i], ticks: deepNum };
+        } else {
+          askN[deepNum].lots = big.toStr(
+            big.add(askN[deepNum].lots, ask[i].lots)
+          );
+        }
+      }
+
+      for (let i = 0; i < bid.length; i++) {
+        const num = big.toFixedPoint(bid[i].ticks, this.muPoint);
+        const numL = num.indexOf(".") > -1 ? num.length - 1 : num.length; // 当前数字的个数
+
+        if (numL <= pointL) {
+          continue;
+        }
+        const deepNum = big.toStr(big.toPrecision(num, numL - pointL));
+
+        if (!bidN[deepNum]) {
+          bidN[deepNum] = { ...bid[i], ticks: deepNum };
+        } else {
+          bidN[deepNum].lots = big.toStr(
+            big.add(bidN[deepNum].lots, bid[i].lots)
+          );
+        }
+      }
+
+      const askData = Object.values(askN).sort((a, b) =>
+        big.isGt(a.ticks, b.ticks) ? -1 : 1
+      );
+      const bidData = Object.values(bidN).sort((a, b) =>
+        big.isGt(a.ticks, b.ticks) ? -1 : 1
+      );
+
+      return {
+        askData,
+        bidData,
+      };
     },
     // 原本没有total这一项，前端计算获得，total = 每一项的lots相加
     askDataCom() {
-      let ask = this.askData;
+      let ask = this.sourceDataDepth.askData;
       ask.reverse();
       for (let i = 0; i < ask.length; i++) {
-        ask[i].total = i === 0 ? Number(ask[i].lots) : ask[i - 1].total + Number(ask[i].lots);
+        ask[i].total =
+          i === 0
+            ? Number(ask[i].lots)
+            : ask[i - 1].total + Number(ask[i].lots);
       }
       ask.reverse();
       return ask;
     },
     bidDataCom() {
-      const bid = this.bidData;
+      const bid = this.sourceDataDepth.bidData;
       for (let i = 0; i < bid.length; i++) {
-        bid[i].total = i === 0 ? Number(bid[i].lots) : bid[i - 1].total + Number(bid[i].lots);
+        bid[i].total =
+          i === 0
+            ? Number(bid[i].lots)
+            : bid[i - 1].total + Number(bid[i].lots);
       }
       return bid;
     },
@@ -266,8 +336,8 @@ export default {
       let b = 0; // 均价
       for (let i = 0; i < this.bidOverIndex; i++) {
         if (bidDataShow[i]) {
-          a += bidDataShow[i].lots;
-          b += bidDataShow[i].ticks;
+          a += Number(bidDataShow[i].lots);
+          b += Number(bidDataShow[i].ticks);
         }
       }
       a = big.toFixedPoint(a, this.ziPoint);
@@ -288,8 +358,8 @@ export default {
         i++
       ) {
         if (askDataShow[i]) {
-          a += askDataShow[i].lots;
-          b += askDataShow[i].ticks;
+          a += Number(askDataShow[i].lots);
+          b += Number(askDataShow[i].ticks);
         }
       }
       a = big.toFixedPoint(a, this.ziPoint);
@@ -312,7 +382,7 @@ export default {
 
     // 第1个值
     firstValue() {
-      const theFirstBuy = this.bidDataCom[0] ? this.bidDataCom[0].ticks : "";
+      const theFirstBuy = this.bidData[0] ? this.bidData[0].ticks : "";
       return theFirstBuy || "";
     },
 

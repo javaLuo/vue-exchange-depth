@@ -1,4 +1,5 @@
 import big from "big.js";
+big.RM = 0;
 
 /**
  * 格式化数字，保留几位小数点,不会四舍五入，而是直接截取
@@ -10,8 +11,8 @@ export const toFixedPoint = (num, p) => {
   if (isNaN(num) || num === null) {
     return "--";
   }
-  const str = big(num).toFixed(p + 1);
-  return str.slice(0, str.length - 1);
+
+  return new big(num).toFixed(p);
 };
 
 /**
@@ -19,8 +20,20 @@ export const toFixedPoint = (num, p) => {
  * @param num 原始数字/字符串
  * @returns string
  * */
-export const toFixedAuto = (num) => {
+export const toFixedAuto = num => {
+  if (isNaN(num) || num === null) {
+    return "--";
+  }
+
   return new big(num).toFixed();
+};
+
+// 保留N位有效数字
+export const toPrecision = (num, n) => {
+  if (isNaN(num) || num === null) {
+    return "--";
+  }
+  return big(num).toPrecision(n);
 };
 
 /**
@@ -43,20 +56,28 @@ export const isLt = (x, y) => {
   return new big(x).lt(y);
 };
 
-/**
- * 除法
- * @param x 被除数
- * @param y 除数
- * @returns string
- */
+// 除法
 export const div = (x, y) => {
   return new big(x).div(y);
+};
+
+// 加法
+export const add = (x, y) => {
+  return new big(x).plus(y);
+};
+
+// 转字符串
+export const toStr = num => {
+  return new big(num).toString();
 };
 
 export default {
   toFixedPoint,
   toFixedAuto,
+  toPrecision,
+  toStr,
   isGt,
   isLt,
   div,
+  add,
 };

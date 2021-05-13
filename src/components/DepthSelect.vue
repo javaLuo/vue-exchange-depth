@@ -16,6 +16,9 @@
         >
           {{ item.label }}
         </li>
+        <li class="no-depth" v-if="options.length === 0" data-value="no">
+          无深度
+        </li>
       </ul>
     </div>
   </div>
@@ -46,11 +49,14 @@ export default {
   },
   methods: {
     onDepthChose(e) {
+      this.closeShow();
+      if (e.target.dataset.value === "no") {
+        return;
+      }
       this.$emit("change", {
         label: e.target.dataset.label,
         value: e.target.dataset.value,
       });
-      this.closeShow();
     },
     triggerShow() {
       this.show = !this.show;
@@ -162,6 +168,10 @@ export default {
           background-color: var(--highlight);
           color: #fff;
         }
+      }
+      .no-depth {
+        padding: 10px 0;
+        text-align: center;
       }
     }
   }

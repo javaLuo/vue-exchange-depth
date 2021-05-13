@@ -1,6 +1,6 @@
 {
   "name": "vue-exchange-depth",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "files": ["dist"],
   "main": "./dist/vue-exchange-depth.umd.min.js",
   "scripts": {
