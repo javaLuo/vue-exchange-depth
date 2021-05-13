@@ -61,7 +61,9 @@
 
 <script>
 // import VueExchangeDepth from "./components/VueExchangeDepth.vue";
-import VueExchangeDepth from "vue-exchange-depth";
+import { toStr, add } from "./utils/tools.js";
+
+import VueExchangeDepth from "./components/VueExchangeDepth";
 export default {
   name: "App",
   components: {
@@ -71,6 +73,7 @@ export default {
     return {
       isFlash: true,
       isWindow: true,
+      isFrontDepth: true,
       hoverType: "left",
       marketNowObj: {
         zi: "BTC",
@@ -82,16 +85,8 @@ export default {
       lastPrice: 0,
       lastFormatFial: "",
       info: [],
+      deep: { value: "1" },
     };
-  },
-  computed: {
-    options() {
-      return {
-        isFlash: this.isFlash,
-        hoverType: this.hoverType,
-        isHoverInfo: this.isWindow,
-      };
-    },
   },
   mounted() {
     this.randomData();
@@ -100,6 +95,7 @@ export default {
     // 深度选择变化
     onAccuracyChange(p) {
       this.info.push(`深度变化：${JSON.stringify(p)}`);
+      this.deep.value = p.value;
     },
     // 点击某一行
     onRowClick(p, q) {
@@ -121,11 +117,11 @@ export default {
       for (let i = 0; i < 20; i++) {
         askData.push({
           ticks:
-            50000 +
-            i * 1000 +
-            (this.random(1, 10, true) < 9 ? 0 : this.random(10, 100)), // 价格
+            50000.123456789 +
+            i * 10 +
+            (this.random(1, 10, true) < 5 ? 0 : this.random(10, 100)), // 价格
           lots:
-            this.random(1, 10, true) <= 9
+            this.random(1, 10, true) <= 5
               ? i + 1.23456789
               : i + this.random(1, 10), // 数量
           count: this.random(1, 50, true), // 挂单量
@@ -133,10 +129,10 @@ export default {
         bidData.push({
           ticks:
             49900 -
-            i * 1000 -
-            (this.random(1, 10, true) < 9 ? 0 : this.random(10, 100)),
+            i * 10 -
+            (this.random(1, 10, true) < 5 ? 0 : this.random(10, 100)),
           lots:
-            this.random(1, 10, true) <= 9
+            this.random(1, 10, true) <= 5
               ? i + 1.23456789
               : i + this.random(1, 10),
           count: this.random(1, 50, true),
@@ -146,12 +142,44 @@ export default {
       setTimeout(() => {
         this.sourceData = {
           askData,
-          bidData,
+          bidData: [],
         };
+
         this.lastPrice = Math.random() * 100 + 49900;
         this.lastFormatFial = ` ≈ ${(this.lastPrice * 6.4).toFixed(2)} RMB`;
         this.randomData();
-      }, 300);
+      }, 200);
+      // askData.push({ticks: '50101.99999999', lots: 8});
+      // askData.push({ticks: '50100.99999999', lots: 7});
+      // askData.push({ticks: '50011.2123567', lots: 6});
+      // askData.push({ticks: '50011.2123123', lots: 5});
+      // askData.push({ticks: '50010.1002', lots: 4});
+      // askData.push({ticks: '50010.1001', lots: 3});
+      // askData.push({ticks: '50000.10000889', lots: 2});
+      // askData.push({ticks: '50000.10000888', lots: 1});
+
+      // bidData.push({ticks: '45000.99999999', lots: 1});
+      // bidData.push({ticks: '45000.99999998', lots: 2});
+      // bidData.push({ticks: '45000.22', lots: 3});
+      // bidData.push({ticks: '45000.2123123', lots: 4});
+      // bidData.push({ticks: '45000', lots: 5});
+      // bidData.push({ticks: '45049', lots: 6});
+      // bidData.push({ticks: '45048', lots: 7});
+      // bidData.push({ticks: '5047', lots: 8});
+      // this.sourceData = {
+      //   askData,
+      //   bidData,
+      // };
+    },
+  },
+  computed: {
+    options() {
+      return {
+        isFlash: this.isFlash,
+        hoverType: this.hoverType,
+        isHoverInfo: this.isWindow,
+        isFrontDepth: this.isFrontDepth,
+      };
     },
   },
 };
