@@ -61,7 +61,7 @@
 
 <script>
 // import VueExchangeDepth from "./components/VueExchangeDepth.vue";
-import { toStr, add } from "./utils/tools.js";
+import socket from "./utils/socket.js";
 
 import VueExchangeDepth from "./components/VueExchangeDepth";
 export default {
@@ -90,6 +90,10 @@ export default {
   },
   mounted() {
     this.randomData();
+    socket.initSocket();
+  },
+  beforeDestroy() {
+    socket.close();
   },
   methods: {
     // 深度选择变化
@@ -118,21 +122,21 @@ export default {
         askData.push({
           ticks:
             50000.123456789 +
-            i * 10 +
-            (this.random(1, 10, true) < 5 ? 0 : this.random(10, 100)), // 价格
+            i * 10 + (this.random(1, 10, true) < 8 ? 0 : this.random(10, 100)) +
+             '',// 价格
           lots:
-            this.random(1, 10, true) <= 5
-              ? i + 1.23456789
-              : i + this.random(1, 10), // 数量
+            this.random(1, 10, true) <= 8
+              ? i + 1.23456789 + ''
+              : i + this.random(1, 10) + '', // 数量
           count: this.random(1, 50, true), // 挂单量
         });
         bidData.push({
           ticks:
             49900 -
             i * 10 -
-            (this.random(1, 10, true) < 5 ? 0 : this.random(10, 100)),
+            (this.random(1, 10, true) < 8 ? 0 : this.random(10, 100)),
           lots:
-            this.random(1, 10, true) <= 5
+            this.random(1, 10, true) <= 8
               ? i + 1.23456789
               : i + this.random(1, 10),
           count: this.random(1, 50, true),
@@ -170,6 +174,9 @@ export default {
       //   askData,
       //   bidData,
       // };
+    },
+    initSocket() {
+      socket.initSocket();
     },
   },
   computed: {

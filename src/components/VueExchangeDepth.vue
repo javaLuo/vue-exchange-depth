@@ -448,7 +448,7 @@ export default {
         this.show = true;
       }
     },
-    sourceData(newV) {
+    sourceDataDepth(newV) {
       if (this.op.isFlash) {
         setTimeout(() => {
           this.flashData = {
